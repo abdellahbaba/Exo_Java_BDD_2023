@@ -11,7 +11,6 @@
     <input type="text" id="inputValeur" name="chaine">
     <p><input type="submit" value="Afficher">
 </form>
-
 <%
     String chaine = request.getParameter("chaine"); 
     if (chaine != null && !chaine.isEmpty()) { 
@@ -20,7 +19,8 @@
     <%-- Calculs de base --%>
     <% int longueurChaine = chaine.length(); %>
     <p>La longueur de votre chaîne est de <%= longueurChaine %> caractères.</p>
-<% char caractereExtrait = chaine.charAt(2); %>
+
+    <% char caractereExtrait = chaine.charAt(2); %>
     <p>Le 3ᵉ caractère de votre chaîne est la lettre : <%= caractereExtrait %></p>
 
     <% String sousChaine = chaine.substring(2, 6); %>
@@ -36,12 +36,12 @@
 
     <%-- Exercice 1 : Compter les 'e' --%>
     <%
-        int compteurE = 0;
+ int compteurE = 0;
         for (int i = 0; i < chaine.length(); i++) {
             if (chaine.charAt(i) == 'e' || chaine.charAt(i) == 'E') {
                 compteurE++;
             }
-    }
+        }
     %>
     <p>Exercice 1 : Il y a <%= compteurE %> lettre(s) 'e' dans votre texte.</p>
 
@@ -60,12 +60,11 @@
     </p>
 
     <hr>
-
-    <%-- Exercice 3 : Retour à la ligne après chaque espace --%>
+<%-- Exercice 3 : Retour à la ligne après chaque espace --%>
     <p>Exercice 3 : Retour à la ligne sur les espaces :</p>
     <p>
     <% 
- String[] mots = chaine.split(" ");
+        String[] mots = chaine.split(" ");
         for (String mot : mots) { 
     %>
         <%= mot %><br>
@@ -75,8 +74,7 @@
     </p>
 
     <hr>
-
-    <%-- Exercice 4 : Une lettre sur deux --%>
+ <%-- Exercice 4 : Une lettre sur deux --%>
     <p>Exercice 4 : Une lettre sur deux :</p>
     <p>
     <% 
@@ -84,7 +82,7 @@
             out.print(chaine.charAt(i));
         } 
     %>
- </p>
+    </p>
 
     <hr>
 
@@ -92,7 +90,7 @@
     <p>Exercice 5 : Phrase en verlant :</p>
     <p>
     <% 
-        for (int i = chaine.length() - 1; i >= 0; i--) { 
+  for (int i = chaine.length() - 1; i >= 0; i--) { 
             out.print(chaine.charAt(i));
         } 
     %>
@@ -109,11 +107,11 @@
             char c = chaine.charAt(i);
             if (Character.isLetter(c)) { 
                 if (voyellesString.indexOf(c) != -1) {
-                    voyelles++;
+  voyelles++;
                 } else {
                     consonnes++;
                 }
-  }
+            }
         }
     %>
     <p>Exercice 6 : Votre texte contient <%= voyelles %> voyelle(s) et <%= consonnes %> consonne(s).</p>
