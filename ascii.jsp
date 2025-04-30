@@ -1,54 +1,66 @@
-import java.io.*;
-import java.util.*;
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ASCII Art</title>
+    <style>
+        pre {
+            font-family: monospace;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ASCII ART</h1>
 
-public class AsciiArtToHtml {
+    <form method="post">
+        Entrez un mot : <input type="text" name="text" />
+        <input type="submit" value="Afficher" />
+    </form>
 
-    public static void main(String[] args) throws IOException {
-        Scanner in = new Scanner(System.in);
+<%
+    int L = 4;
+    int H = 5;
 
-        int L = in.nextInt();
-        int H = in.nextInt();
-        in.nextLine(); // Ignore le retour à la ligne
-        String T = in.nextLine().toUpperCase();
+    String input = request.getParameter("text");
+    if (input != null && !input.isEmpty()) {
+        input = input.toUpperCase();
 
-        String[] asciiRows = new String[H];
+        String[] rows = new String[H];
+        rows[0] = " #  ##   ## ##  ### ###  ## # # ###  ## # # #   # # # # ### ### ### ##  ### ### # # # # # # # # # # ### ";
+        rows[1] = "# # # # #   # # #   #   #   # #  #    # ##  #   ### # # # # # # # # # # #    #  # # # # # # # #  #    #  ";
+        rows[2] = "### ##  #   # # ##  ##  # # ###  #    # #   #   # # ### # # ### # # ##  ###  #  # # # # # #  #   #   #   ";
+        rows[3] = "# # # # #   # # #   #   # # # #  #    # ##  #   # # ### # # #   # # # #   #  #  # # # # ### # #  #  #   ";
+        rows[4] = "# # ##   ## ##  ### #   ### # # ### ### # # ### # # # # ### #     # # # ###  #  ###  #  # # # #  #  ###  ";
+
+        StringBuilder[] asciiLines = new StringBuilder[H];
         for (int i = 0; i < H; i++) {
-            asciiRows[i] = in.nextLine();
+            asciiLines[i] = new StringBuilder();
         }
 
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?";
-        StringBuilder[] outputLines = new StringBuilder[H];
-        for (int i = 0; i < H; i++) outputLines[i] = new StringBuilder();
+        for (int j = 0; j < input.length(); j++) {
+            char c = input.charAt(j);
+            int index = (c >= 'A' && c <= 'Z') ? c - 'A' : 26;
 
-        for (char c : T.toCharArray()) {
-            int index = alphabet.indexOf(c);
-            if (index == -1) index = 26; // Pour les caractères non alphabétiques
-            int start = index * L;
-
-            for (int row = 0; row < H; row++) {
-                outputLines[row].append(asciiRows[row], start, start + L);
+            for (int i = 0; i < H; i++) {
+                int start = index * L;
+                int end = start + L;
+                if (end <= rows[i].length()) {
+                    asciiLines[i].append(rows[i], start, end);
+                } else {
+                    asciiLines[i].append("????");
+                }
             }
         }
 
-        try (PrintWriter writer = new PrintWriter("ascii_output.html")) {
-            writer.println("<!DOCTYPE html>");
-            writer.println("<html lang=\"fr\">");
-            writer.println("<head>");
-            writer.println("<meta charset=\"UTF-8\">");
-            writer.println("<title>ASCII Art Output</title>");
-            writer.println("<style>");
-            writer.println("body { background: #111; color: #0f0; font-family: monospace; padding: 2rem; }");
-            writer.println(".ascii { white-space: pre; font-size: 16px; line-height: 1.2; }");
-            writer.println("</style>");
-            writer.println("</head><body>");
-            writer.println("<h1>ASCII Art Output</h1>");
-            writer.println("<div class=\"ascii\">");
-            for (StringBuilder line : outputLines) {
-                writer.println(line.toString());
-            }
-            writer.println("</div></body></html>");
+        out.println("<pre>");
+        for (int i = 0; i < H; i++) {
+            out.println(asciiLines[i].toString());
         }
-
-        System.out.println("✅ Fichier généré : ascii_output.html");
+        out.println("</pre>");
     }
-}
+%>
+
+</body>
+</html>
