@@ -1,40 +1,37 @@
-import java.util.*;
-
-public class AsciiArt {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-
-        int L = in.nextInt();
-        int H = in.nextInt();
-        in.nextLine();
-
-        String T = in.nextLine().toUpperCase();
-
-        String[] asciiRows = new String[H];
-        for (int i = 0; i < H; i++) {
-            asciiRows[i] = in.nextLine();
-            // Vérification : chaque ligne doit avoir 27 * L caractères
-            if (asciiRows[i].length() < 27 * L) {
-                System.err.println("Erreur : ligne ASCII trop courte !");
-                return;
-            }
-        }
-
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?";
-
-        for (int row = 0; row < H; row++) {
-            StringBuilder outputLine = new StringBuilder();
-
-            for (char c : T.toCharArray()) {
-                int index = alphabet.indexOf(c);
-                if (index == -1) index = 26; // caractère inconnu => '?'
-                int start = index * L;
-                outputLine.append(asciiRows[row], start, start + L);
-            }
-
-            System.out.println(outputLine);
-        }
-
-        in.close();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>ASCII Art Terminal</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 2rem;
     }
-}
+    pre {
+      white-space: pre;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .ascii-container {
+      border: 1px solid #0f0;
+      padding: 1rem;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>ASCII Art - MANHATTAN</h1>
+  <div class="ascii-container">
+    <pre>
+# #  #  ### # #  #  ### ###  #  ###  
+### # # # # # # # #  #   #  # # # #  
+### ### # # ### ###  #   #  ### # #  
+# # # # # # # # # #  #   #  # # # #  
+# # # # # # # # # #  #   #  # # # #  
+    </pre>
+  </div>
+</body>
+</html>
