@@ -59,52 +59,51 @@
     </style>
 </head>
 <body>
-    <h1>Générateur ASCII Art</h1>
-    
-    <form method="post">
-        <input type="text" name="text" 
-               placeholder="Entrez votre texte ici..." 
-               value="<%= request.getMethod().equalsIgnoreCase("POST") 
-                          ? request.getParameter("text") 
-                          : "" %>"
-               required>
-        <button type="submit">Générer</button>
-    </form>
+<h1>Générateur ASCII Art</h1>
+
+<form method="post">
+    <input type="text" name="text"
+           placeholder="Entrez votre texte ici..."
+           value="<%= request.getMethod().equalsIgnoreCase("POST") 
+                      ? request.getParameter("text") 
+                      : "" %>"
+           required>
+    <button type="submit">Générer</button>
+</form>
 
 <%
     if ("POST".equalsIgnoreCase(request.getMethod())) {
         String input = request.getParameter("text");
         if (input != null && !input.trim().isEmpty()) {
-            final int L = 4;  // Largeur d'un caractère
-            final int H = 5;  // Hauteur d'un caractère
-            
+            final int L = 4;
+            final int H = 5;
+
+            // Alphabet = A-Z + ? + 0-9 => total 26 + 1 + 10 = 37
+            String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?0123456789";
+
             String[] rows = {
-                " #  ##   ## ##  ### ###  ## # # ###  ## # # #   # # ###  #  ##   #  ##   ## ### # # # # # # # # # # ### ### ",
-                "# # # # #   # # #   #   #   # #  #    # # # #   ### # # # # # # # # # # #    #  # # # # # # # # # #   #   # ",
-                "### ##  #   # # ##  ##  # # ###  #    # ##  #   ### # # # # ##  # # ##   #   #  # # # # ###  #   #   #   ## ",
-                "# # # # #   # # #   #   # # # #  #  # # # # #   # # # # # # #    ## # #   #  #  # # # # ### # #  #  #       ",
-                "# # ##   ## ##  ### #    ## # # ###  #  # # ### # # # #  #  #     # # # ##   #  ###  #  # # # #  #  ###  #  "
+                " #  ##   ## ##  ### ###  ## # # ###  ## # # #   # # ###  #  ##   #  ##   ## ### # # # # # # # # # # ### ###  ##  #  ### ### # # ### ### ### ### ###  # ",
+                "# # # # #   # # #   #   #   # #  #    # # # #   ### # # # # # # # # # # #    #  # # # # # # # # # #   #   #  # # # # #   #   # # #   #     # # # # # # ",
+                "### ##  #   # # ##  ##  # # ###  #    # ##  #   ### # # # # ##  # # ##   #   #  # # # # ###  #   #   #   ##  # # ### ### ### ### ###   # ### ### ### ",
+                "# # # # #   # # #   #   # # # #  #  # # # # #   # # # # # # #    ## # #   #  #  # # # # ### # #  #  #       # #   #   #   # #   # # #   # # #   # # # ",
+                "# # ##   ## ##  ### #    ## # # ###  #  # # ### # # # #  #  #     # # # ##   #  ###  #  # # # #  #  ###  #  #  # ### ###   # ### ###   # ### ### ### "
             };
 
             StringBuilder[] asciiLines = new StringBuilder[H];
-            for (int i = 0; i < H; i++) {
-                asciiLines[i] = new StringBuilder();
-            }
+            for (int i = 0; i < H; i++) asciiLines[i] = new StringBuilder();
 
             input = input.toUpperCase();
+
             for (int j = 0; j < input.length(); j++) {
                 char c = input.charAt(j);
-                int index = (c >= 'A' && c <= 'Z') ? c - 'A' : 26; // 26 pour les caractères non alphabétiques
+                int index = alphabet.indexOf(c);
+                if (index == -1) index = 26; // '?'
 
                 for (int i = 0; i < H; i++) {
                     int start = index * L;
-                    int end = start + L;
-                    if (end <= rows[i].length()) {
-                        // Ajoute le caractère ASCII + un espace (sauf après le dernier caractère)
-                        asciiLines[i].append(rows[i].substring(start, end));
-                        if (j < input.length() - 1) {
-                            asciiLines[i].append(" ");
-                        }
+                    asciiLines[i].append(rows[i], start, start + L);
+                    if (j < input.length() - 1) {
+                        asciiLines[i].append(" ");
                     }
                 }
             }
@@ -117,5 +116,6 @@
         }
     }
 %>
+
 </body>
 </html>
