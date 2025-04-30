@@ -4,15 +4,20 @@ public class AsciiArt {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        int L = in.nextInt(); // Largeur d'une lettre
-        int H = in.nextInt(); // Hauteur d'une lettre
-        in.nextLine(); // Consomme le retour à la ligne
+        int L = in.nextInt();
+        int H = in.nextInt();
+        in.nextLine();
 
-        String T = in.nextLine().toUpperCase(); // Texte à afficher
+        String T = in.nextLine().toUpperCase();
 
         String[] asciiRows = new String[H];
         for (int i = 0; i < H; i++) {
-            asciiRows[i] = in.nextLine(); // Lire chaque ligne ASCII
+            asciiRows[i] = in.nextLine();
+            // Vérification : chaque ligne doit avoir 27 * L caractères
+            if (asciiRows[i].length() < 27 * L) {
+                System.err.println("Erreur : ligne ASCII trop courte !");
+                return;
+            }
         }
 
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ?";
@@ -22,9 +27,7 @@ public class AsciiArt {
 
             for (char c : T.toCharArray()) {
                 int index = alphabet.indexOf(c);
-                if (index == -1) {
-                    index = 26; // Index du '?'
-                }
+                if (index == -1) index = 26; // caractère inconnu => '?'
                 int start = index * L;
                 outputLine.append(asciiRows[row], start, start + L);
             }
