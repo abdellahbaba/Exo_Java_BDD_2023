@@ -25,12 +25,4 @@ String upper = bonjour.toUpperCase();
 
 // Transformation avec seulement la 1re lettre en majuscule
 String firstCap = capitalizeFirst(bonjour);
-%>
-
-<h2>Exercice de consolidation Java (JSP)</h2>
-<p><strong>Message d’origine :</strong> <%= bonjour %></p>
-<p><strong>En MAJUSCULES :</strong> <%= upper %></p>
-<p><strong>Première lettre seulement en majuscule :</strong> <%= firstCap %></p>
-
-</body>
-</html>
+%
