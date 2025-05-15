@@ -1,27 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>Manipulation de chaînes</title>
 </head>
-<body>
+<body bgcolor="white">
+<h1>Exercice sur les chaînes de caractères</h1>
+
+<form action="#" method="post">
+    <p>Saisir une phrase : <input type="text" name="message">
+    <p><input type="submit" value="Afficher les transformations">
+</form>
 
 <%
-    // Déclaration de la chaîne de départ
-    String bonjour = "salut la compagnie";
+    String message = request.getParameter("message");
 
-    // Conversion en majuscules
-    String bonjourMajuscule = bonjour.toUpperCase();
+    if (message != null && !message.trim().isEmpty()) {
+        // Affichage en majuscules
+        String majuscules = message.toUpperCase();
 
-    // Mise en majuscule de la première lettre seulement
-    String bonjourPremiereMaj = bonjour.substring(0, 1).toUpperCase() + bonjour.substring(1);
+        // Mise en majuscule de la première lettre uniquement
+        String premiereMaj = message.substring(0, 1).toUpperCase() + message.substring(1);
+
+%>
+    <h2>Résultats :</h2>
+    <p><strong>Original :</strong> <%= message %></p>
+    <p><strong>Majuscules :</strong> <%= majuscules %></p>
+    <p><strong>Première lettre en majuscule :</strong> <%= premiereMaj %></p>
+<%
+    }
 %>
 
-<h2>Résultat du traitement de la chaîne</h2>
-<p><strong>Texte original :</strong> <%= bonjour %></p>
-<p><strong>En MAJUSCULES :</strong> <%= bonjourMajuscule %></p>
-<p><strong>Première lettre en majuscule uniquement :</strong> <%= bonjourPremiereMaj %></p>
-
+<p><a href="index.html">Retour au sommaire</a></p>
 </body>
 </html>
